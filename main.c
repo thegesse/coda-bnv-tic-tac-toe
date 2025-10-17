@@ -1,26 +1,37 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-char grid[9] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
-void draw_grid();
+#include <stdlib.h>
+#include <time.h>
+char grid[9] = {};
+
 
 void draw_grid(){
-    printf("        |           |         \n");
-    printf("        |           |         \n");
-    printf("     %c  |      %c    |   %c    \n", grid[0], grid[1], grid[2]);
-    printf("________|___________|_________\n");
-    printf("        |           |         \n");
-    printf("        |           |         \n");
-    printf("     %c  |      %c    |   %c    \n", grid[3], grid[4], grid[5]);
-    printf("________|___________|_________\n");
-    printf("        |           |         \n");
-    printf("        |           |         \n");
-    printf("     %c  |      %c    |   %c    \n", grid[6], grid[7], grid[8]);
+    printf("        |           |         \n"
+       "        |           |         \n"
+       "     %c  |       %c    |   %c    \n"
+       "________|___________|_________\n"
+       "        |           |         \n"
+       "        |           |         \n"
+       "     %c  |       %c    |   %c    \n"
+       "________|___________|_________\n"
+       "        |           |         \n"
+       "        |           |         \n"
+       "     %c  |       %c    |   %c    \n",
+       grid[0], grid[1], grid[2], grid[3], grid[4], grid[5], grid[6], grid[7], grid[8]);
 
 }
-void machine(){
-    
+void machine(int a){
+
+
+    int bot;
+    do {
+        bot = rand() % 9;  // Generate a random number between 0 and 8
+        printf("Bot trying spot: %d\n", bot);  // Debug print
+    } while (grid[bot] != '\0' && grid[bot] != a);  // Loop until the spot is empty and not equal to a
+    // Now, place the bot's mark ('X') in the selected spot
+    grid[bot] = 'X';
+    printf("Bot placed 'X' at spot: %d\n", bot);
 }
+
 
 char win_condition(){
         if(grid[0] == 'o' && grid[1] == 'o' && grid[2] == 'o' || grid[3] == 'o' && grid[4] == 'o' && grid[5] == 'o' || grid[6] == 'o' && grid[7] == 'o' && grid[8] == 'o'){
@@ -33,20 +44,35 @@ char win_condition(){
         else if(grid[0] == 'o' && grid[4] == 'o' && grid[8] == 'o' || grid[2] == 'o' && grid[4] == 'o' && grid[6] == 'o'){
             return(1);
         }
+        else if(grid[0] == 'X' && grid[1] == 'X' && grid[2] == 'X' || grid[3] == 'X' && grid[4] == 'X' && grid[5] == 'X' || grid[6] == 'X' && grid[7] == 'X' && grid[8] == 'X'){
+            return(2);
+        }
+        
+        else if(grid[0] == 'X' && grid[3] == 'X' && grid[6] == 'X' || grid[1] == 'X' && grid[4] == 'X' && grid[7] == 'X' || grid[2] == 'X' && grid[5] == 'X' && grid[8] == 'X'){
+            return(2);
+        }
+        else if(grid[0] == 'X' && grid[4] == 'X' && grid[8] == 'X' || grid[2] == 'X' && grid[4] == 'X' && grid[6] == 'X'){
+            return(2);
+        }
 }
 int main(){
     int game_state = 0;
     draw_grid();
-    printf("player 1 is 'o', player 2 is computer and is 'x' \n");
+    printf("player 1 is 'o', player 2 is a computer and is 'X' \n");
     while(game_state == 0){
         int  choice;
         printf("\nplayer 1 turn: ");
-        int placement = scanf("%d", &choice);
+        scanf("%d", &choice);
         grid[choice] = 'o';
+        machine(choice);
         draw_grid();
         win_condition();
         if(win_condition() == 1){
             printf("player 1 wins\n");
+            game_state ++;
+        }
+        else if(win_condition() == 2){
+            printf("bot wins");
             game_state ++;
         }
 
