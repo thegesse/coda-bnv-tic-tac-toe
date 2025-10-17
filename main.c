@@ -19,21 +19,29 @@ void draw_grid(){
        grid[0], grid[1], grid[2], grid[3], grid[4], grid[5], grid[6], grid[7], grid[8]);
 
 }
-void machine(int a){
-
-
+void machine(int player){
     int bot;
     do {
-        bot = rand() % 9;  // Generate a random number between 0 and 8
-        printf("Bot trying spot: %d\n", bot);  // Debug print
-    } while (grid[bot] != '\0' && grid[bot] != a);  // Loop until the spot is empty and not equal to a
-    // Now, place the bot's mark ('X') in the selected spot
+        bot = rand() % 9;
+        printf("Bot trying spot: %d\n", bot);
+    } while (grid[bot] != '\0' && grid[bot] != player);
     grid[bot] = 'X';
     printf("Bot placed 'X' at spot: %d\n", bot);
+
+}
+
+int full(char *array, int size) {
+    for (int i = 0; i < size; i++) {
+        if (array[i] == '\0') {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 
 char win_condition(){
+
         if(grid[0] == 'o' && grid[1] == 'o' && grid[2] == 'o' || grid[3] == 'o' && grid[4] == 'o' && grid[5] == 'o' || grid[6] == 'o' && grid[7] == 'o' && grid[8] == 'o'){
             return(1);
         }
@@ -54,7 +62,13 @@ char win_condition(){
         else if(grid[0] == 'X' && grid[4] == 'X' && grid[8] == 'X' || grid[2] == 'X' && grid[4] == 'X' && grid[6] == 'X'){
             return(2);
         }
+        if(full(grid, 9)){
+            return(3);
+        }
 }
+
+
+
 int main(){
     int game_state = 0;
     draw_grid();
@@ -75,9 +89,13 @@ int main(){
             printf("bot wins");
             game_state ++;
         }
+        else if(win_condition() == 3){
+            printf("draw");
+            game_state ++;
+        }
 
 
 
     }
-
+    exit(0);
 }
