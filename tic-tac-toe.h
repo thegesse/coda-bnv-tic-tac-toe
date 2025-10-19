@@ -4,6 +4,6 @@
 void draw_grid();
 char win_condition();
 void machine();
-extern char grid[];
+extern char grid[];  //trouver sur stackoverflow pour importer le tableau sur le main
 
 #endif
