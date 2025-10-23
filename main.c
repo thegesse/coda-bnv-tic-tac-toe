@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "ti-tac-toe.h"
+#include "tic-tac-toe.h"
 int main(){
 
     int game_state = 0;
