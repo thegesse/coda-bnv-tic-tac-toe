@@ -1,6 +1,6 @@
-NAME = tic-tac-toe
+NAME = exec
 SRCS = main.c \
-	tic-tac-toe.c
+	function.c
 all: $(NAME)
 $(NAME): $(SRCS)
 	gcc $(SRCS) -o $(NAME)
